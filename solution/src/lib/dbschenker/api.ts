@@ -3,7 +3,7 @@ import CDP from 'chrome-remote-interface';
 import { Builder } from 'selenium-webdriver';
 import chrome from 'selenium-webdriver/chrome.js';
 import { shipmentResponseSchema, type ShipmentResponse } from './schemas.js';
-import { deferredPromise } from '@/utils/promise.js';
+import { deferredPromise, promiseWithTimeout } from '@/utils/promise.js';
 
 const TRACKING_PUBLIC_URL = 'https://www.dbschenker.com/app/tracking-public/';
 const API_BASE = 'https://www.dbschenker.com/nges-portal/api/public/tracking-public';
@@ -79,20 +79,6 @@ function wireNetworkHandlers(
       }
     }
   });
-}
-
-async function promiseWithTimeout<T>(promise: Promise<T>, ms: number, message: string) {
-  let timeout: NodeJS.Timeout | null = null;
-  const timeoutPromise = new Promise<never>((_, reject) => {
-    timeout = setTimeout(() => reject(new Error(message)), ms);
-  });
-  try {
-    return await Promise.race([promise, timeoutPromise]);
-  } finally {
-    if (timeout) {
-      clearTimeout(timeout);
-    }
-  }
 }
 
 async function buildChromeDriver() {
