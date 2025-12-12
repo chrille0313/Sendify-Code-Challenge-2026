@@ -29,6 +29,7 @@ export async function fetchShipment(reference: string) {
 
     await driver.get(`${TRACKING_PUBLIC_URL}?refNumber=${encodedReference}&uiMode=`);
 
+    // Race CDP capture against a timeout so we don't hang if the page never returns the shipment.
     const shipmentJson = await promiseWithTimeout(
       shipmentPromise.promise,
       TRACKING_TIMEOUT_MS,
@@ -42,6 +43,8 @@ export async function fetchShipment(reference: string) {
   }
 }
 
+// Listen for the search response to capture the shipment ID,
+// then the detail response containing that ID to resolve.
 function wireNetworkHandlers(
   cdp: CDP.Client,
   searchUrl: string,

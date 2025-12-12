@@ -30,6 +30,7 @@ export const trackShipmentTool = {
         structuredContent: shipment
       };
     } catch (err) {
+      // Surface a user-friendly error instead of throwing to the client.
       const message = err instanceof Error ? err.message : 'Unknown error';
       return {
         content: [

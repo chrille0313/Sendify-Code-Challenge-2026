@@ -1,5 +1,11 @@
 import { z } from 'zod';
 
+/*
+A documentation for the dbschenker tracking API hasn't been found,
+so for now, all fields are marked as optional in order to force type
+checking for the presence of the fields.
+*/
+
 const locationSchema = z.object({
   countryCode: z.string().optional(),
   country: z.string().optional(),
