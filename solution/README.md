@@ -38,9 +38,7 @@ npm run start
 
 ```json
 {
-  "mcpServers": {
-    ...
-  }
+  "mcpServers": {}
 }
 ```
 
